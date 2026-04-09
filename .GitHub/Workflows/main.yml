@@ -1,38 +1,30 @@
 name: SmartShop WhatsApp Bot
 
 on:
-  workflow_dispatch:   # Allows manual trigger from GitHub
+  workflow_dispatch:
   schedule:
-    - cron: '*/30 * * * *'   # Runs every 30 minutes
+    - cron: '*/30 * * * *'
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
 
     steps:
-      # 📥 Step 1: Checkout repository
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # ⚙️ Step 2: Setup Node.js
-      - name: Setup Node.js Environment
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
-      # 📦 Step 3: Install dependencies
       - name: Install Dependencies
         run: npm install
 
-      # 🔧 Step 4: Install node-fetch (required for fetch API)
       - name: Install node-fetch
         run: npm install node-fetch@2
 
-      # 🚀 Step 5: Start WhatsApp Bot
-      - name: Start WhatsApp Bot
+      - name: Start Bot
         env:
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
-        run: |
-          echo "Starting Smart Shop WhatsApp Bot..."
-          node index.js
+        run: node index.js
